@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 
 function App() {
   const [numWords, setNumWords] = useState(50);
-  const numWordsOptions = [10, 25, 50, 100, 250]
+  const numWordsOptions = [10, 25, 50, 100, 200]
 
   const [wordsArr, setWordsArr] = useState(() => {
     return generate({ exactly: numWords })
@@ -55,23 +55,21 @@ function App() {
   const WPM = 0;
   const ACC = 0;
 
-  useCallback(() => {
-    const newGen = generate({ exactly: numWords });
+  const updateNumWords = (num: number) => {
+    setNumWords(num)
+    const newGen = generate({ exactly: num });
     setWordsArr(newGen)
-  }, [numWords])
-
-  useCallback(() => {
-    setWords(wordsArr.reduce((acc, curr) => {
+    setWords(newGen.reduce((acc, curr) => {
       return acc + " " + curr
     }))
     setWordIndex(0);
     setTypedWords([]);
     setInputText("");
-  }, [wordsArr])
 
+  }
   return (
     <div className="w-screen h-screen flex items-center font-mono">
-      <div className="p-3 space-y-3">
+      <div className="p-3 space-y-3 w-full">
         <h3 className="text-xl text-center"> TYPING TEST </h3>
         <div className="flex justify-between">
           <div className="divide-x-2">
@@ -79,7 +77,7 @@ function App() {
               numWordsOptions.map(d => {
                 const focused = d === numWords ? "font-bold" : "font-normal"
                 return <>
-                  <span className={`px-3 py-1 hover:font-bold cursor-pointer ${focused}`} onClick={() => setNumWords(d)}>
+                  <span className={`first:pl-0 px-3 py-1 hover:font-bold cursor-pointer ${focused}`} onClick={() => updateNumWords(d)}>
                     {d}
                   </span>
                 </>
@@ -90,7 +88,7 @@ function App() {
             <span className="px-3 py-1">
               WPM: {WPM}
             </span>
-            <span className="px-3 py-1">
+            <span className="px-3 pr-0 py-1">
               ACC: {ACC}
             </span>
           </div>
