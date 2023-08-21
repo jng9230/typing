@@ -5,7 +5,7 @@ import { BiRevision } from "react-icons/bi"
 
 function App() {
   const [numWords, setNumWords] = useState(50);
-  const numWordsOptions = [10, 25, 50, 100, 200]
+  const numWordsOptions = [10, 25, 50, 100]
 
   const [wordsArr, setWordsArr] = useState(() => {
     return generate({ exactly: numWords })
@@ -21,15 +21,25 @@ function App() {
   const [wordIndex, setWordIndex] = useState(0)
   const [inputText, setInputText] = useState("")
   const handleInputText = (e: React.FormEvent<HTMLInputElement>) => {
+
     const str = e.currentTarget.value
     const currChar = str[str.length - 1]
-    const currWord = str.slice(0, str.length - 1)
+    const typedWord = str.slice(0, str.length - 1)
+    const correctWord = wordsArr[wordIndex]
 
-    //update indexes and check word if it's a space
+    //at beginning -> start timer
+    if (wordIndex === 0 && str.length === 1) {
+      setStartTime(Date.now())
+    }
+
+    console.log(typedWord)
+    console.log(str)
+    //update indexes and check word's validity if it's a space
     if (currChar === " ") {
       setWordIndex(wordIndex + 1)
       setInputText("")
-      setTypedWords([...typedWords, currWord === wordsArr[wordIndex]])
+      setTypedWords([...typedWords, typedWord === correctWord])
+      typedWord === correctWord ? setNumCorrect(numCorrect + 1) : setNumCorrect(numCorrect)
       return;
     }
 
@@ -41,16 +51,19 @@ function App() {
       str.length === wordsArr[numWords - 1].length
     ) {
       setFinished(true)
+      setEndTime(Date.now())
       setInputText("")
-      setTypedWords([...typedWords, currWord === wordsArr[wordIndex]])
+      setTypedWords([...typedWords, typedWord + currChar === correctWord])
+      typedWord + currChar === correctWord ? setNumCorrect(numCorrect + 1) : setNumCorrect(numCorrect)
       return;
     }
   }
 
   useEffect(() => {
     if (finished) {
-      setWPM(111)
-      setACC(111)
+      const wordsPerMSec = numWords / (endTime - startTime)
+      setWPM(Math.floor(wordsPerMSec * 1000 * 60))
+      setACC(Math.floor(numCorrect * 100 / numWords))
       setFinished(false)
     }
   }, [finished])
@@ -64,10 +77,11 @@ function App() {
     resetWords(numWords);
   }
   const [WPM, setWPM] = useState<"NAN" | number>("NAN");
-  const [ACC, setACC] = useState<"NAN" | number>("NAN")
+  const [ACC, setACC] = useState<"NAN" | number>("NAN");
+  const [numCorrect, setNumCorrect] = useState(0);
 
   const updateNumWords = (num: number) => {
-    setNumWords(num)
+    setNumWords(num);
     resetWords(num);
   }
 
@@ -83,7 +97,14 @@ function App() {
     setTypedWords([])
     setACC("NAN")
     setWPM("NAN")
+    setNumCorrect(0)
   }
+
+  //set up timers for WPM
+  const [startTime, setStartTime] = useState(Date.now());
+  const [endTime, setEndTime] = useState(Date.now());
+
+  //set up counters for ACC
 
   return (
     <div className="w-screen h-screen flex items-center justify-center font-mono">
