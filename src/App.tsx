@@ -1,6 +1,7 @@
 import { type } from "os";
 import { generate, count } from "random-words";
 import { useCallback, useState } from "react";
+import { BiRevision } from "react-icons/bi"
 
 function App() {
   const [numWords, setNumWords] = useState(50);
@@ -24,6 +25,7 @@ function App() {
     const currChar = str[str.length - 1]
     const currWord = str.slice(0, str.length - 1)
 
+
     //update indexes and check word if it's a space
     if (currChar === " ") {
       setWordIndex(wordIndex + 1)
@@ -42,15 +44,7 @@ function App() {
 
     e.preventDefault();
 
-    const newGen = generate({ exactly: numWords })
-    setWordsArr(newGen)
-    setWords(newGen.reduce((acc, curr) => {
-      return acc + " " + curr
-    }))
-
-    setInputText("")
-    setWordIndex(0)
-    setTypedWords([])
+    resetWords();
   }
   const WPM = 0;
   const ACC = 0;
@@ -67,9 +61,20 @@ function App() {
     setInputText("");
 
   }
+  const resetWords = () => {
+    const newGen = generate({ exactly: numWords })
+    setWordsArr(newGen)
+    setWords(newGen.reduce((acc, curr) => {
+      return acc + " " + curr
+    }))
+
+    setInputText("")
+    setWordIndex(0)
+    setTypedWords([])
+  }
   return (
-    <div className="w-screen h-screen flex items-center font-mono">
-      <div className="p-3 space-y-3 w-full">
+    <div className="w-screen h-screen flex items-center justify-center font-mono">
+      <div className="p-3 space-y-3 w-2/3">
         <h3 className="text-xl text-center"> TYPING TEST </h3>
         <div className="flex justify-between">
           <div className="divide-x-2">
@@ -109,7 +114,7 @@ function App() {
             }
           </div>
         </div>
-        <div>
+        <div className="flex justify-between items-center gap-3">
           <input type="text"
             className="border-2 border-black rounded-xl px-3 py-1  w-full"
             value={inputText}
@@ -118,7 +123,11 @@ function App() {
             autoFocus
           >
           </input>
-
+          <button onClick={() => { resetWords() }} className="p-2 hover:border-red-500 hover:text-red-500 border-2 border-black rounded-lg"
+            title="Reset"
+          >
+            <BiRevision />
+          </button>
         </div>
       </div>
     </div>
