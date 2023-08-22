@@ -1,11 +1,11 @@
-import { type } from "os";
 import { generate, count } from "random-words";
 import { useCallback, useState, useEffect } from "react";
 import { BiRevision } from "react-icons/bi"
+import { useLocalStorage } from "./utils/localStorage";
 
 function App() {
   const [numWords, setNumWords] = useState(50);
-  const numWordsOptions = [10, 25, 50, 100]
+  const numWordsOptions = [1, 10, 25, 50, 100]
 
   const [wordsArr, setWordsArr] = useState(() => {
     return generate({ exactly: numWords })
@@ -32,8 +32,6 @@ function App() {
       setStartTime(Date.now())
     }
 
-    console.log(typedWord)
-    console.log(str)
     //update indexes and check word's validity if it's a space
     if (currChar === " ") {
       setWordIndex(wordIndex + 1)
@@ -59,11 +57,25 @@ function App() {
     }
   }
 
+
+  const [history, setHistory] = useLocalStorage("history", []);
+  // type historyEntry = {
+  //   WPM: number,
+  //   ACC: number
+  // }
   useEffect(() => {
     if (finished) {
       const wordsPerMSec = numWords / (endTime - startTime)
-      setWPM(Math.floor(wordsPerMSec * 1000 * 60))
-      setACC(Math.floor(numCorrect * 100 / numWords))
+      const newWPM = Math.floor(wordsPerMSec * 1000 * 60)
+      const newACC = Math.floor(numCorrect * 100 / numWords)
+      setWPM(newWPM)
+      setACC(newACC)
+      const newHistory = {
+        WPM: newWPM,
+        ACC: newACC,
+        numWords: numWords
+      }
+      setHistory([...history, newHistory])
       setFinished(false)
     }
   }, [finished])
