@@ -23,7 +23,6 @@ function App() {
   const [wordIndex, setWordIndex] = useState(0)
   const [inputText, setInputText] = useState("")
   const handleInputText = (e: React.FormEvent<HTMLInputElement>) => {
-
     const str = e.currentTarget.value
     const currChar = str[str.length - 1]
     const typedWord = str.slice(0, str.length - 1)
@@ -78,7 +77,6 @@ function App() {
         numWords: numWords
       }
       setHistory([...history, newHistory])
-      setFinished(false)
     }
   }, [finished])
 
@@ -100,6 +98,7 @@ function App() {
   }
 
   const resetWords = (num: number) => {
+    setFinished(false);
     const newGen = generate({ exactly: num })
     setWordsArr(newGen)
     setWords(newGen.reduce((acc, curr) => {
@@ -169,17 +168,22 @@ function App() {
             onChange={handleInputText}
             onKeyDown={handleKeydown}
             autoFocus
+            placeholder={finished ? "Press tab to restart" : ""}
           >
           </input>
-          <button onClick={() => { resetWords(numWords) }} className="p-2 hover:border-red-500 hover:text-red-500 border-2 border-black rounded-lg"
+          {/* <button onClick={() => { resetWords(numWords) }} className="p-2 hover:border-red-500 hover:text-red-500 border-2 border-black rounded-lg"
             title="Reset"
           >
             <BiRevision />
-          </button>
+          </button> */}
         </div>
-        <div>
-          <LineChart history={history.filter((d: any) => d.numWords === numWords)} />
-        </div>
+        {
+          finished ?
+            <div>
+              <LineChart history={history.filter((d: any) => d.numWords === numWords)} />
+            </div> :
+            <></>
+        }
       </div>
     </div>
   );

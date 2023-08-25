@@ -33,6 +33,11 @@ const options = {
       text: 'WPM History',
     },
   },
+  scales: {
+    x: {
+      offset: true //horizontally centers the chart
+    }
+  }
 };
 
 // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
