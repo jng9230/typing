@@ -9,7 +9,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { typeHistory } from './utils/extraTypes';
+import { TypingHistory } from './utils/extraTypes';
 
 ChartJS.register(
   CategoryScale,
@@ -56,7 +56,7 @@ const options = {
 const LineChart = ({
   history
 }: {
-  history: typeHistory[]
+  history: TypingHistory[]
 }) => {
   const labels = Array.from('.'.repeat(history.length));
   const data = {
