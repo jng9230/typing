@@ -61,10 +61,7 @@ function App() {
 
 
   const [history, setHistory] = useLocalStorage("history", []);
-  // type historyEntry = {
-  //   WPM: number,
-  //   ACC: number
-  // }
+
   useEffect(() => {
     if (finished) {
       const wordsPerMSec = numWords / (endTime - startTime)
@@ -145,7 +142,12 @@ function App() {
           </div>
         </div>
         <div className=" text-gray-500 relative">
-          {words}
+          {
+            wordsArr.map((curr, i) => {
+              return i === wordIndex ? <span> <u>{curr}</u> </span>
+                : curr + " "
+            })
+          }
           <div className="absolute top-0 left-0 z-50">
             {
               typedWords?.map((correct, i) => {
