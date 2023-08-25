@@ -2,6 +2,8 @@ import { generate, count } from "random-words";
 import { useCallback, useState, useEffect } from "react";
 import { BiRevision } from "react-icons/bi"
 import { useLocalStorage } from "./utils/localStorage";
+import LineChart from "./LineChart";
+import { typeHistory } from "./utils/extraTypes";
 
 function App() {
   const [numWords, setNumWords] = useState(50);
@@ -70,7 +72,7 @@ function App() {
       const newACC = Math.floor(numCorrect * 100 / numWords)
       setWPM(newWPM)
       setACC(newACC)
-      const newHistory = {
+      const newHistory: typeHistory = {
         WPM: newWPM,
         ACC: newACC,
         numWords: numWords
@@ -174,6 +176,9 @@ function App() {
           >
             <BiRevision />
           </button>
+        </div>
+        <div>
+          <LineChart history={history.filter((d: any) => d.numWords === numWords)} />
         </div>
       </div>
     </div>
