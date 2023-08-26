@@ -223,7 +223,7 @@ function App() {
       <div className="divide-x absolute bottom-3 text-text">
         THEME:
         {
-          themes.map(d => {
+          Object.keys(themes).map(d => {
             return <button onClick={() => setTheme(d)} className="px-3">
               {d === theme ? <b>{d}</b> : <span>{d}</span>}
             </button>
