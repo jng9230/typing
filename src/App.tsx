@@ -14,16 +14,16 @@ function App() {
     return generate({ exactly: numWords })
   })
 
-  const [words, setWords] = useState(() => {
-    return wordsArr.reduce((acc, curr) => {
-      return acc + " " + curr
-    })
-  })
-
   const [typedWords, setTypedWords] = useState<Boolean[]>([])
   const [finished, setFinished] = useState(false);
   const [wordIndex, setWordIndex] = useState(0)
   const [inputText, setInputText] = useState("")
+  // enum WordStatus { CORRECT, INCORRECT, UPCOMING, WAITING }
+  type WordStatus = "CORRECT" | "INCORRECT" | "UPCOMING" | "WAITING"
+  const [wordStatuses, setWordStatuses] = useState<WordStatus[]>(() => {
+    return Array.from("WAITING".repeat(numWords)) as WordStatus[]
+  })
+
   const handleInputText = (e: React.FormEvent<HTMLInputElement>) => {
     const str = e.currentTarget.value
     const currChar = str[str.length - 1]
@@ -40,7 +40,11 @@ function App() {
       setWordIndex(wordIndex + 1)
       setInputText("")
       setTypedWords([...typedWords, typedWord === correctWord])
-      typedWord === correctWord ? setNumCorrect(numCorrect + 1) : setNumCorrect(numCorrect)
+      const correct = typedWord === correctWord
+      correct ? setNumCorrect(numCorrect + 1) : setNumCorrect(numCorrect)
+      const temp = wordStatuses
+      temp[wordIndex] = correct ? "CORRECT" : "INCORRECT"
+      setWordStatuses(temp)
       return;
     }
 
@@ -54,8 +58,12 @@ function App() {
       setFinished(true)
       setEndTime(Date.now())
       setInputText("")
-      setTypedWords([...typedWords, typedWord + currChar === correctWord])
-      typedWord + currChar === correctWord ? setNumCorrect(numCorrect + 1) : setNumCorrect(numCorrect)
+      const correct = typedWord + currChar === correctWord
+      setTypedWords([...typedWords, correct])
+      correct ? setNumCorrect(numCorrect + 1) : setNumCorrect(numCorrect)
+      const temp = wordStatuses
+      temp[wordIndex] = correct ? "CORRECT" : "INCORRECT"
+      setWordStatuses(temp)
       return;
     }
   }
@@ -104,9 +112,9 @@ function App() {
     setFinished(false);
     const newGen = generate({ exactly: num })
     setWordsArr(newGen)
-    setWords(newGen.reduce((acc, curr) => {
-      return acc + " " + curr
-    }))
+    // setWords(newGen.reduce((acc, curr) => {
+    //   return acc + " " + curr
+    // }))
 
     setInputText("")
     setWordIndex(0)
@@ -114,6 +122,7 @@ function App() {
     setACC("NAN")
     setWPM("NAN")
     setNumCorrect(0)
+    setWordStatuses(Array.from("WAITING".repeat(numWords)) as WordStatus[])
   }
 
   //set up timers for WPM
@@ -149,12 +158,31 @@ function App() {
         </div>
         <div className={`relative text-text`}>
           {
+            wordsArr.map((d, i) => {
+              const status = wordStatuses[i];
+              let style;
+              if (status === "CORRECT") {
+                style = "text-correct"
+              } else if (status === "INCORRECT") {
+                style = "text-incorrect"
+              } else {
+                style = "text-text"
+              }
+
+              return <>
+                <span className={style}>
+                  {i === wordIndex ? <u>{d}</u> : <span> {d} </span>}
+                </span>
+              </>
+            })
+          }
+          {/* {
             wordsArr.map((curr, i) => {
               return i === wordIndex ? <span> <u>{curr}</u> </span>
                 : curr + " "
             })
-          }
-          <div className="absolute top-0 left-0 z-50">
+          } */}
+          {/* <div className="absolute top-0 left-0 z-50">
             {
               typedWords?.map((correct, i) => {
                 const textColor = correct ? "text-correct" : "text-incorrect"
@@ -166,7 +194,7 @@ function App() {
                 </>
               })
             }
-          </div>
+          </div> */}
         </div>
         <div className="flex justify-between items-center gap-3">
           <input type="text"
@@ -197,7 +225,7 @@ function App() {
         {
           themes.map(d => {
             return <button onClick={() => setTheme(d)} className="px-3">
-              {d}
+              {d === theme ? <b>{d}</b> : <span>{d}</span>}
             </button>
           })
         }
