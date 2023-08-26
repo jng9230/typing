@@ -52,7 +52,7 @@ export const themes: { [themeName: string]: Theme } = {
     bg: "#242933",
     text: "#fff",
     box: "#2E3440",
-    ui: "#fff",
+    ui: "#ffffff",
     upcoming: "#968EAD"
   },
   "dumpling": {
@@ -66,9 +66,9 @@ export const themes: { [themeName: string]: Theme } = {
   },
   "lucky": {
     correct: "#FFD700",
-    incorrect: "black",
+    incorrect: "#000000",
     bg: "#ECD7B6",
-    text: "white",
+    text: "#FFFFFF",
     box: "#FE262B",
     ui: "#FFD700",
     upcoming: "#000FD3"

@@ -13,7 +13,7 @@ const ThemeSetter = () => {
       THEME:
       {
         Object.keys(themes).map(d => {
-          return <button onClick={() => setTheme(d)} className="px-3">
+          return <button onClick={() => setTheme(d)} className="px-3" key={d}>
             {d === theme ? <b>{d}</b> : <span>{d}</span>}
           </button>
         })

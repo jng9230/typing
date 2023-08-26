@@ -23,11 +23,11 @@ const TextDisplay = ({
             style = "text-text"
           }
 
-          return <>
-            <span className={style}>
+          return (
+            <span className={style} key={i}>
               {i === wordIndex ? <u>{d}</u> : <span> {d} </span>}
             </span>
-          </>
+          )
         })
       }
     </div>

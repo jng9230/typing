@@ -19,11 +19,11 @@ const UIBar = ({
         {
           numWordsOptions.map(d => {
             const focused = d === numWords ? "font-bold" : "font-normal"
-            return <>
-              <span className={`first:pl-0 px-3 py-0 hover:font-bold cursor-pointer ${focused}`} onClick={() => updateNumWords(d)}>
+            return (
+              <span className={`first:pl-0 px-3 py-0 hover:font-bold cursor-pointer ${focused}`} onClick={() => updateNumWords(d)} key={d}>
                 {d}
               </span>
-            </>
+            )
           })
         }
       </div>
