@@ -65,8 +65,8 @@ const LineChart = ({
       {
         label: "WPM",
         data: history.map(d => d.WPM),
-        borderColor: 'rgb(100, 100, 100)', //line color
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', //dot color
+        borderColor: 'rgb(0, 0, 0)', //line color
+        backgroundColor: 'rgba(0, 0, 0, 1)', //dot color
       },
       // {
       //   label: "ACC",
