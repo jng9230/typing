@@ -9,7 +9,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { TypingHistory } from './utils/extraTypes';
+import { TypingHistory } from '../utils/extraTypes';
 
 ChartJS.register(
   CategoryScale,
@@ -78,7 +78,9 @@ const LineChart = ({
   };
 
   return (
-    <Line options={options} data={data} />
+    <div className="flex items-center justify-center max-h-96">
+      <Line options={options} data={data} />
+    </div>
   )
 }
 

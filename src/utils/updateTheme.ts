@@ -8,6 +8,7 @@ type Theme = {
   ui: string,
   upcoming: string
 }
+
 export const themes: { [themeName: string]: Theme } = {
   "default": {
     correct: "#22c55e",
@@ -73,6 +74,7 @@ export const themes: { [themeName: string]: Theme } = {
     upcoming: "#000FD3"
   },
 }
+
 export const updateTheme = (theme: string) => {
   setCSSVar("--color-correct", themes[theme].correct)
   setCSSVar("--color-incorrect", themes[theme].incorrect)

@@ -3,3 +3,5 @@ export type TypingHistory = {
   ACC: number,
   numWords: number
 }
+
+export type WordStatus = "CORRECT" | "INCORRECT" | "UPCOMING" | "WAITING"
