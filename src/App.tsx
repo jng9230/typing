@@ -9,7 +9,7 @@ import TextDisplay from "./components/TextDisplay";
 
 function App() {
   //meta vars for words
-  const [numWords, setNumWords] = useState(10);
+  const [numWords, setNumWords] = useLocalStorage("numWords", 10);
   const numWordsOptions = [1, 10, 25, 50, 100]
   const [wordsArr, setWordsArr] = useState(() => {
     return generate({ exactly: numWords })

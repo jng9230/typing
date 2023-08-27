@@ -40,7 +40,7 @@ const LineChart = ({
         display: false,
       },
       title: {
-        display: false,
+        display: true,
         text: 'WPM History',
         color: color,
       },
