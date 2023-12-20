@@ -7,12 +7,12 @@
 } */
 
 @layer base {
-  :root {
-    --color-correct: #22c55e;
-    --color-incorrect: #ef4444;
-    --color-bg: #fff;
-    --color-text: #000;
-    --color-ui: #000;
-    --color-upcoming: #000;
-  }
+    :root {
+        --color-correct: #22c55e;
+        --color-incorrect: #ef4444;
+        --color-bg: #fff;
+        --color-text: #000;
+        --color-ui: #000;
+        --color-upcoming: #000;
+    }
 }
